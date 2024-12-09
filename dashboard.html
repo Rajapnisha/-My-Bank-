@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Banking Dashboard</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: rgba(228, 220, 220, 0.8);
+      margin: 0;
+    }
+
+    #mainContent img {
+      display: block;
+      margin: 20px auto;
+      max-width: 100%;
+      height: 450px;
+    }
+
+    .sidebar {
+      background-color: #343a40;
+      color: white;
+      height: 100vh;
+      padding: 15px;
+    }
+
+    footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background-color: #343a40;
+      color: white;
+      text-align: center;
+      padding: 5px;
+    }
+
+    .card {
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    @media (max-width: 768px) {
+      .card {
+        margin-bottom: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container-fluid">
+  <div class="row">
+    <!-- Sidebar -->
+    <aside class="col-md-2 sidebar">
+      <h4>Menu</h4>
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a href="#" class="nav-link text-white" onclick="loadContent('account')">Account</a>
+        </li>
+        <!-- <li class="nav-item">
+          <a href="#" class="nav-link text-white" onclick="loadContent('transactions')">Transactions</a>
+        </li> -->
+        <li class="nav-item">
+          <a href="#" class="nav-link text-white" onclick="loadContent('history')">History</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link text-white" onclick="loadContent('depositWithdraw')">Deposit/Withdraw</a>
+        </li>
+        <li class="nav-item">
+          <a href="service.html" class="nav-link text-white">Next</a>
+        </li>
+        
+
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="col-md-10 py-4" id="mainContent">
+      <div class="container">
+        <h1 class="text-center">Welcome to the Banking Dashboard</h1>
+        <p class="text-center">Select a menu option from the left to view more information.</p>
+        <img src="images/create.jpg" alt="Banking Dashboard">
+      </div>
+    </main>
+  </div>
+</div>
+
+
+<!-- Footer -->
+<footer>
+  &copy; 2024 Banking Corp. All rights reserved.
+</footer>
+
+<!-- JavaScript -->
+<script>
+  // Load user data from localStorage or initialize default values
+  let userData = JSON.parse(localStorage.getItem('userData')) || {
+    name: "Rajapnisha",
+    accountNumber: "0031246781100",
+    email: "rajapnishabca2021@gmail.com",
+    phone: "+6379397493",
+    address: "KVR Nagar Main Street, Tirupur, Tamilnadu",
+    balance: 5000000.00, // Initial balance
+    transactionHistory: []
+  };
+
+  function loadContent(page) {
+    const mainContent = document.getElementById('mainContent');
+
+    if (page === 'account') {
+      mainContent.innerHTML = `
+        <div class="container">
+          <h1 class="text-center mb-4">Account Details</h1>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <div class="card">
+                <div class="card-body text-center">
+                  <h5 class="card-title">Account Holder</h5>
+                  <p class="card-text"><strong>${userData.name}</strong></p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="card">
+                <div class="card-body text-center">
+                  <h5 class="card-title">Account Number</h5>
+                  <p class="card-text"><strong>${userData.accountNumber}</strong></p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="card">
+                <div class="card-body text-center">
+                  <h5 class="card-title">Email</h5>
+                  <p class="card-text"><strong>${userData.email}</strong></p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="card">
+                <div class="card-body text-center">
+                  <h5 class="card-title">Phone</h5>
+                  <p class="card-text"><strong>${userData.phone}</strong></p>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 mb-3">
+              <div class="card">
+                <div class="card-body text-center">
+                  <h5 class="card-title">Balance</h5>
+                  <p class="card-text display-6">RS: ${userData.balance.toFixed(2)}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 mb-3">
+              <div class="card">
+                <div class="card-body text-center">
+                  <h5 class="card-title">Address</h5>
+                  <p class="card-text"><strong>${userData.address}</strong></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    } else if (page === 'depositWithdraw') {
+      mainContent.innerHTML = `
+        <div class="container">
+          <h1 class="text-center mb-4">Deposit/Withdraw</h1>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Deposit</h5>
+                  <form onsubmit="handleTransaction(event, 'Deposit')">
+                    <div class="mb-3">
+                      <label for="depositAmount" class="form-label">Amount</label>
+                      <input type="number" id="depositAmount" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-success w-100">Deposit</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Withdraw</h5>
+                  <form onsubmit="handleTransaction(event, 'Withdraw')">
+                    <div class="mb-3">
+                      <label for="withdrawAmount" class="form-label">Amount</label>
+                      <input type="number" id="withdrawAmount" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-danger w-100">Withdraw</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    } else if (page === 'history') {
+      const historyHtml = userData.transactionHistory.map((entry, index) => `
+        <tr>
+          <td>${index + 1}</td>
+          <td>${entry.type}</td>
+          <td>RS ${entry.amount}</td>
+          <td>${entry.date}</td>
+        </tr>
+      `).join('');
+
+      mainContent.innerHTML = `
+        <div class="container">
+          <h1 class="text-center mb-4">Transaction History</h1>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${historyHtml || '<tr><td colspan="4" class="text-center">No transactions found.</td></tr>'}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+  }
+
+  function handleTransaction(event, type) {
+    event.preventDefault();
+    const amount = type === 'Deposit'
+      ? parseFloat(document.getElementById('depositAmount').value)
+      : parseFloat(document.getElementById('withdrawAmount').value);
+
+    if (isNaN(amount) || amount <= 0) {
+      alert('Please enter a valid amount!');
+      return;
+    }
+
+    if (type === 'Withdraw' && amount > userData.balance) {
+      alert('Insufficient balance!');
+      return;
+    }
+
+    // Update balance based on transaction type
+    if (type === 'Deposit') {
+      userData.balance += amount;
+    } else if (type === 'Withdraw') {
+      userData.balance -= amount;
+    }
+
+    // Record the transaction
+    const transaction = {
+      type,
+      amount: amount.toFixed(2),
+      date: new Date().toLocaleString()
+    };
+
+    userData.transactionHistory.push(transaction);
+
+    // Save updated user data to localStorage
+    localStorage.setItem('userData', JSON.stringify(userData));
+
+    // Provide feedback to the user
+    alert(`${type} successful! Amount: RS ${amount.toFixed(2)}`);
+
+    // Clear input fields after transaction
+    if (type === 'Deposit') document.getElementById('depositAmount').value = '';
+    if (type === 'Withdraw') document.getElementById('withdrawAmount').value = '';
+
+    // Refresh account page to reflect updated balance
+    loadContent('account');
+  }
+
+  // Load initial content
+  loadContent('account');
+</script>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
